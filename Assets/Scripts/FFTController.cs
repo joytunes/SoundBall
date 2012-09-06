@@ -6,7 +6,7 @@ public class FFTController : MonoBehaviour
     public int numSamples = 128;
     public GameObject spectrumBallTemplate;
 
-    private float[] spectrumSamples;
+    internal float[] spectrumSamples;
     private GameObject[] spectrumBalls;
 
 	// Use this for initialization
