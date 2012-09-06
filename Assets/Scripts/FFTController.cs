@@ -12,8 +12,9 @@ public class FFTController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         Debug.Log("Devices : " + string.Join(",", Microphone.devices));
-        //audio.clip = Microphone.Start(null, true, 5, 44100);
-        spectrumSamples = new float[numSamples];
+        //audio.clip = Microphone.Start(null, true, 999, 44100);
+		audio.Play();
+        spectrumSamples = new float[numSamples*4];
         spectrumBalls = new GameObject[numSamples];
         for (int i = 0; i < numSamples; i++)
         {
@@ -32,10 +33,10 @@ public class FFTController : MonoBehaviour
             spectrumBalls[i].transform.localPosition = new Vector3(i, spectrumSamples[i], 0);
         }
 
-        if (Time.frameCount % 60 == 0)
-        {
-            string[] floatStrings = System.Array.ConvertAll<float, System.String>(spectrumSamples, delegate (float input) { return input.ToString(); });
-            Debug.Log(string.Join(",", floatStrings));
-        }
+        //if (Time.frameCount % 60 == 0)
+        //{
+        //    string[] floatStrings = System.Array.ConvertAll<float, System.String>(spectrumSamples, delegate (float input) { return input.ToString(); });
+        //    Debug.Log(string.Join(",", floatStrings));
+        //}
 	}
 }
