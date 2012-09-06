@@ -4,9 +4,11 @@ using System.Collections;
 public class FFTController : MonoBehaviour 
 {
     public int numSamples = 128;
+	public float alphaValue = 0.8f;
     public GameObject spectrumBallTemplate;
 
     internal float[] spectrumSamples;
+	internal float[] ballPositions;
     private GameObject[] spectrumBalls;
 
 	// Use this for initialization
@@ -16,6 +18,7 @@ public class FFTController : MonoBehaviour
 		audio.Play();
         spectrumSamples = new float[numSamples*4];
         spectrumBalls = new GameObject[numSamples];
+		ballPositions = new float[numSamples];
         for (int i = 0; i < numSamples; i++)
         {
             spectrumBalls[i] = (GameObject)GameObject.Instantiate(spectrumBallTemplate);
@@ -27,10 +30,18 @@ public class FFTController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        audio.GetSpectrumData(spectrumSamples, 0, FFTWindow.Rectangular);
+        audio.GetSpectrumData(spectrumSamples, 0, FFTWindow.Hamming);
+		
+		// Smoothing values
         for (int i = 0; i < numSamples; i++)
         {
-            spectrumBalls[i].transform.localPosition = new Vector3(i, spectrumSamples[i], 0);
+            ballPositions[i] = alphaValue*ballPositions[i] + (1-alphaValue)*spectrumSamples[i];
+        }
+		
+		// Setting ball positions
+		for (int i = 0; i < numSamples; i++)
+        {
+            spectrumBalls[i].transform.localPosition = new Vector3(i, ballPositions[i], 0);
         }
 
         //if (Time.frameCount % 60 == 0)
