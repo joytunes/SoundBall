@@ -5,10 +5,13 @@ public class FFTControllerMesh : MonoBehaviour {
 
     public FFTController sourceController;
     public MeshFilter targetMesh;
-    public int boxWidth = 10;
+    public Color minColor = Color.gray;
+    public Color maxColor = Color.blue;
+    public float maxHeight = 0.5f;
+
 	// Use this for initialization
 	void Start () {
-	    
+	
 	}
 	
 	// Update is called once per frame
@@ -25,10 +28,18 @@ public class FFTControllerMesh : MonoBehaviour {
         Vector3[] triangleVertices = new Vector3[samples.Length * 2];
         int[] triangleIndices = new int[(samples.Length - 1)*2*3];
 
+        Color[] colors = new Color[samples.Length * 2];
+        float factor;
+
         for (int i = 0; i < samples.Length ; i++)
         {
-            triangleVertices[2 * i] = new Vector3(i, -boxWidth, 0);
+            triangleVertices[2 * i] = new Vector3(i, 0, 0);
             triangleVertices[2 * i + 1] = new Vector3(i, samples[i], 0);
+
+            factor = Mathf.Min(new float[]{Mathf.InverseLerp(0, maxHeight, samples[i]),1});
+
+            colors[2*i] = minColor;
+            colors[2 * i + 1] = maxColor; // Color.Lerp(minColor, maxColor, factor);
         }
 
         for (int i = 0; i < (samples.Length-1) * 2; i++)
@@ -40,12 +51,13 @@ public class FFTControllerMesh : MonoBehaviour {
 
         samplesMesh.vertices = triangleVertices;
         samplesMesh.triangles = triangleIndices;
+        samplesMesh.colors = colors;
 
         if (Time.frameCount % 60 == 0)
         {
             string[] intStrings = System.Array.ConvertAll<int, System.String>(samplesMesh.triangles, delegate(int input) { return input.ToString(); });
             //Debug.Log("triangles:" + string.Join(",", intStrings));
-            //Debug.Log("samples len:" + samples.Length.ToString());
+            Debug.Log("samples max:" + Mathf.Max(samples).ToString());
         }
         return samplesMesh;
     }
