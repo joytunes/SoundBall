@@ -39,7 +39,7 @@ public class FFTControllerMesh : MonoBehaviour {
             factor = Mathf.Min(new float[]{Mathf.InverseLerp(0, maxHeight, samples[i]),1});
 
             colors[2*i] = minColor;
-            colors[2 * i + 1] = maxColor; // Color.Lerp(minColor, maxColor, factor);
+            colors[2 * i + 1] = Color.Lerp(minColor, maxColor, factor);
         }
 
         for (int i = 0; i < (samples.Length-1) * 2; i++)
