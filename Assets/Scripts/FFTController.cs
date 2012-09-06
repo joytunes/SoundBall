@@ -10,15 +10,17 @@ public class FFTController : MonoBehaviour
     internal float[] spectrumSamples;
 	internal float[] ballPositions;
     private GameObject[] spectrumBalls;
+	private FFTSmoother smoother;
 
 	// Use this for initialization
 	void Start () {
         Debug.Log("Devices : " + string.Join(",", Microphone.devices));
-        //audio.clip = Microphone.Start(null, true, 999, 44100);
+        audio.clip = Microphone.Start(null, true, 999, 44100);
 		audio.Play();
-        spectrumSamples = new float[numSamples*4];
+        spectrumSamples = new float[numSamples*8];
         spectrumBalls = new GameObject[numSamples];
-		ballPositions = new float[numSamples];
+		// ballPositions = new float[numSamples];
+		smoother = new FFTSmoother(numSamples);
         for (int i = 0; i < numSamples; i++)
         {
             spectrumBalls[i] = (GameObject)GameObject.Instantiate(spectrumBallTemplate);
@@ -31,12 +33,8 @@ public class FFTController : MonoBehaviour
     void Update()
     {
         audio.GetSpectrumData(spectrumSamples, 0, FFTWindow.Hamming);
-		
-		// Smoothing values
-        for (int i = 0; i < numSamples; i++)
-        {
-            ballPositions[i] = alphaValue*ballPositions[i] + (1-alphaValue)*spectrumSamples[i];
-        }
+		smoother.process(spectrumSamples, alphaValue);
+		ballPositions = smoother.smoothedValues;
 		
 		// Setting ball positions
 		for (int i = 0; i < numSamples; i++)
