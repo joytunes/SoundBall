@@ -15,7 +15,7 @@ public class FFTController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         Debug.Log("Devices : " + string.Join(",", Microphone.devices));
-        audio.clip = Microphone.Start(null, true, 999, 44100);
+        //audio.clip = Microphone.Start(null, true, 999, 44100);
 		audio.Play();
         spectrumSamples = new float[numSamples*8];
         spectrumBalls = new GameObject[numSamples];
