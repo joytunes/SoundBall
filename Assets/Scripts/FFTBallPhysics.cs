@@ -11,7 +11,7 @@ public class FFTBallPhysics : MonoBehaviour
     }
 
     public FFTController controller;
-    public float velocityForceScalar = 1;
+    public float velocityForceScalar = 0.05f;
     public PhysicsCalculationType physicsType;
 
     private VelocityEstimator[] velocityEstimators;
