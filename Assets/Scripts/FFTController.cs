@@ -19,7 +19,7 @@ public class FFTController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         Debug.Log("Devices : " + string.Join(",", Microphone.devices));
-        audio.clip = Microphone.Start(null, true, 999, 44100);
+        //audio.clip = Microphone.Start(null, true, 999, 44100);
 		audio.Play();
 		float fftResolution = (maxFreq-minFreq)/numSamples;
 		fftSize = 1 << ((int)(Mathf.Log(44100f / fftResolution) / Mathf.Log(2f)) + 1);
