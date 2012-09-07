@@ -5,6 +5,7 @@ public class FarJumpGame : MonoBehaviour {
     
     public Transform target;
     public GameObject[] objectsToDisable;
+    public GameObject[] objectsToNotifyOnGameEnd;
     public float timeToStart = 10;
     public float minHeightForThrow = -10;
     public GUIStyle textStyle;
@@ -34,6 +35,11 @@ public class FarJumpGame : MonoBehaviour {
             if (yDistance < minHeightForThrow)
             {
                 finishedFarJump = true;
+                foreach (GameObject go in objectsToNotifyOnGameEnd)
+                {
+                    go.BroadcastMessage("FinishedFarJump", SendMessageOptions.DontRequireReceiver);
+                }
+                
             }
         }
 	}

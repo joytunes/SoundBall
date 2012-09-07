@@ -47,4 +47,9 @@ public class KeepObjectInView : MonoBehaviour
 			transform.position = tmp;
 		}
 	}
+
+    void FinishedFarJump()
+    {
+        Destroy(this, 1f);
+    }
 }
