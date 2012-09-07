@@ -27,7 +27,7 @@ public class FFTBallPhysics : MonoBehaviour
         Vector3 overallForce = CalculateOverallForce();
         if (overallForce != Vector3.zero)
         {
-			rigidbody.velocity = Vector3.Reflect(rigidbody.velocity, overallForce.normalized);
+			rigidbody.velocity = Vector3.Reflect(rigidbody.velocity, overallForce.normalized) * 0.9f;
 			if (rigidbody.velocity.y < 0) {
 				rigidbody.velocity = -rigidbody.velocity;
 			}
@@ -42,7 +42,8 @@ public class FFTBallPhysics : MonoBehaviour
 		if (physicsType == PhysicsCalculationType.BALL_MODEL) {
 			forceSum += CalculateTrampolineForceBallModel();
 		} else if (physicsType == PhysicsCalculationType.PLANE_MODEL) {
-			forceSum += CalculateTrampolineForcePlaneModel();
+			forceSum += 0.5f * CalculateTrampolineForcePlaneModel();
+			forceSum += 0.5f * CalculateTrampolineForceBallModel();
 		}
         return forceSum;
     }
@@ -81,10 +82,9 @@ public class FFTBallPhysics : MonoBehaviour
 					minDistance = distance;
 					contactPoint = i;
 				}
-				Vector3 forceDirection = velocityEstimators[contactPoint+1].position - velocityEstimators[contactPoint-1].position;
+				Vector3 forceDirection = velocityEstimators[i+1].position - velocityEstimators[i-1].position;
 				forceDirection = (new Vector3(-forceDirection.y, forceDirection.x, 0)).normalized;
-				float forceMag = Mathf.Min(2, Mathf.Max (0,velocityEstimators[contactPoint].velocity.y + 1)) ;
-				Debug.Log("position " + i.ToString() + " Force Dir: " + forceDirection.ToString() + " Force Mag: " + forceMag.ToString());
+				float forceMag = Mathf.Max(0,velocityEstimators[i].velocity.y + 1) + velocityEstimators[i].position.y;
 				forceSum += forceDirection * velocityForceScalar;
 
 			}
@@ -97,13 +97,12 @@ public class FFTBallPhysics : MonoBehaviour
 			Debug.Log("Contact point " + contactPoint.ToString() + " dir = " + forceDirection.ToString() + " vel = " + velocityEstimators[contactPoint].velocity.magnitude.ToString() + " forceSum = " + forceSum);
 		}
 		*/
-					
-
-		if (forceSum.sqrMagnitude > 1) {
-			return forceSum.normalized;
-		} else {
-			return forceSum;
+		
+		if (forceSum != Vector3.zero) {
+			Debug.Log("position " + contactPoint.ToString() + " Force Dir: " + forceSum.ToString());
 		}
+
+		return forceSum;
 	}
 	
 	private float PointToSegmentDistance(Vector3 vector1, Vector3 vector2, Vector3 point) {

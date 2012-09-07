@@ -7,6 +7,8 @@ public class FFTController : MonoBehaviour
 	public float minFreq = 300;
 	public float maxFreq = 3400;
 	public float alphaValue = 0.9f;
+	public int smoothValue = 7;
+
     public GameObject spectrumBallTemplate;
     public bool useMicrophone = true;
 
@@ -51,7 +53,7 @@ public class FFTController : MonoBehaviour
 			int freqIndex = (int)(freq/44100f*fftSize);
 			spectrumSamplesInRange[i] = spectrumSamples[ freqIndex ];
 		}
-		smoother.process(spectrumSamplesInRange, alphaValue);
+		smoother.process(spectrumSamplesInRange, alphaValue, smoothValue);
 		
 		// Setting ball positions
 		for (int i = 0; i < numSamples; i++)

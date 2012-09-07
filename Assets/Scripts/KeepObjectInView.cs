@@ -6,7 +6,10 @@ public class KeepObjectInView : MonoBehaviour
     public Transform targetObject;
     public Vector3 movementDirection;
     public float startMoveHeightDelta;
+    public float startMoveWidthDelta;
+
     public float movementRatio = 1;
+    public float movementRatio2 = 1;
 
     private Vector3 startPosition;
     private Vector3 targetStartPosition;
@@ -20,6 +23,7 @@ public class KeepObjectInView : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
         float deltaHeight = targetObject.position.y - targetStartPosition.y;
+        float deltaWidth = targetObject.position.x - targetStartPosition.x;
         if (deltaHeight > startMoveHeightDelta)
         {
             deltaHeight -= startMoveHeightDelta;
@@ -29,5 +33,17 @@ public class KeepObjectInView : MonoBehaviour
         {
             transform.position = startPosition;
         }
+		
+		if (deltaWidth > startMoveWidthDelta)
+		{
+			deltaWidth -= startMoveWidthDelta;
+			Vector3 tmp = transform.position;
+			tmp.x = startPosition.x + deltaWidth * movementRatio2;
+			transform.position = tmp;
+		} else {
+			Vector3 tmp = transform.position;
+			tmp.x = startPosition.x;
+			transform.position = tmp;
+		}
 	}
 }
