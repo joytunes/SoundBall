@@ -4,7 +4,8 @@ using System.Collections;
 public class KeepObjectInView : MonoBehaviour 
 {
     public Transform targetObject;
-    public Vector3 movementDirection;
+    public Vector3 verticalMovementDirection;
+    public Vector3 horizontalMovementDirection;
     public float startMoveHeightDelta;
     public float startMoveWidthDelta;
 
@@ -27,7 +28,7 @@ public class KeepObjectInView : MonoBehaviour
         if (deltaHeight > startMoveHeightDelta)
         {
             deltaHeight -= startMoveHeightDelta;
-            transform.position = startPosition + movementDirection * deltaHeight * movementRatio;
+            transform.position = startPosition + verticalMovementDirection * deltaHeight * movementRatio;
         }
         else
         {
@@ -38,7 +39,7 @@ public class KeepObjectInView : MonoBehaviour
 		{
 			deltaWidth -= startMoveWidthDelta;
 			Vector3 tmp = transform.position;
-			tmp.x = startPosition.x + deltaWidth * movementRatio2;
+			tmp = startPosition + horizontalMovementDirection * deltaWidth * movementRatio2;
 			transform.position = tmp;
 		} else {
 			Vector3 tmp = transform.position;
