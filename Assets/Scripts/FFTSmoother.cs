@@ -8,8 +8,11 @@ public class FFTSmoother
 	}
 	
 	public void process (float[] samples, float alphaValue) {
-		for (int i = 0; i < smoothedValues.Length; i++) {
-			smoothedValues[i] = alphaValue*smoothedValues[i] + (1-alphaValue)*samples[i];
+		for (int i = 2; i < smoothedValues.Length-3; i++) {
+			smoothedValues[i] = alphaValue*smoothedValues[i];
+			for (int j = 0; j < 5; ++j) {
+				smoothedValues[i] += (1-alphaValue)*samples[i-2+j];
+			}
 		}
 	}
 }
