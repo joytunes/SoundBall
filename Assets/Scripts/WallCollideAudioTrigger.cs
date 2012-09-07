@@ -3,6 +3,7 @@ using System.Collections;
 
 public class WallCollideAudioTrigger : MonoBehaviour {
 
+    public float soundHeightThreshold = 4;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,6 +16,9 @@ public class WallCollideAudioTrigger : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        audio.Play();
+        if (collision.transform.localPosition.y >= soundHeightThreshold)
+        {
+            audio.Play();
+        }
     }
 }
