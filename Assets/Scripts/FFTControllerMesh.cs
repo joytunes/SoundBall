@@ -57,7 +57,7 @@ public class FFTControllerMesh : MonoBehaviour {
         {
             string[] intStrings = System.Array.ConvertAll<int, System.String>(samplesMesh.triangles, delegate(int input) { return input.ToString(); });
             //Debug.Log("triangles:" + string.Join(",", intStrings));
-            Debug.Log("samples max:" + Mathf.Max(samples).ToString());
+            // Debug.Log("samples max:" + Mathf.Max(samples).ToString());
         }
         return samplesMesh;
     }

@@ -27,7 +27,6 @@ public class FFTBallPhysics : MonoBehaviour
         Vector3 overallForce = CalculateOverallForce();
         if (overallForce != Vector3.zero)
         {
-			Debug.Log("Force : " + overallForce);
 			rigidbody.velocity = Vector3.Reflect(rigidbody.velocity, overallForce.normalized);
 			if (rigidbody.velocity.y < 0) {
 				rigidbody.velocity = -rigidbody.velocity;
@@ -84,7 +83,9 @@ public class FFTBallPhysics : MonoBehaviour
 				}
 				Vector3 forceDirection = velocityEstimators[contactPoint+1].position - velocityEstimators[contactPoint-1].position;
 				forceDirection = (new Vector3(-forceDirection.y, forceDirection.x, 0)).normalized;
-				forceSum += forceDirection * (velocityEstimators[contactPoint].velocity.magnitude + 1) * velocityForceScalar;
+				float forceMag = Mathf.Min(2, Mathf.Max (0,velocityEstimators[contactPoint].velocity.y + 1)) ;
+				Debug.Log("position " + i.ToString() + " Force Dir: " + forceDirection.ToString() + " Force Mag: " + forceMag.ToString());
+				forceSum += forceDirection * velocityForceScalar;
 
 			}
 		}
@@ -96,7 +97,8 @@ public class FFTBallPhysics : MonoBehaviour
 			Debug.Log("Contact point " + contactPoint.ToString() + " dir = " + forceDirection.ToString() + " vel = " + velocityEstimators[contactPoint].velocity.magnitude.ToString() + " forceSum = " + forceSum);
 		}
 		*/
-		
+					
+
 		if (forceSum.sqrMagnitude > 1) {
 			return forceSum.normalized;
 		} else {
