@@ -8,7 +8,8 @@ public class FFTController : MonoBehaviour
 	public float maxFreq = 3400;
 	public float alphaValue = 0.9f;
     public GameObject spectrumBallTemplate;
-	
+    public bool useMicrophone = true;
+
 	internal int fftSize;
     internal float[] spectrumSamples;
     internal float[] spectrumSamplesInRange;
@@ -19,7 +20,11 @@ public class FFTController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         Debug.Log("Devices : " + string.Join(",", Microphone.devices));
-        //audio.clip = Microphone.Start(null, true, 999, 44100);
+        if (useMicrophone)
+        {
+            audio.clip = Microphone.Start(null, true, 999, 44100);
+        }
+        
 		audio.Play();
 		float fftResolution = (maxFreq-minFreq)/numSamples;
 		fftSize = 1 << ((int)(Mathf.Log(44100f / fftResolution) / Mathf.Log(2f)) + 1);
