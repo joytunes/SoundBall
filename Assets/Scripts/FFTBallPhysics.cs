@@ -1,10 +1,18 @@
 using UnityEngine;
 using System.Collections;
 
-public class FFTBallPhysics : MonoBehaviour {
+public class FFTBallPhysics : MonoBehaviour 
+{
+    [System.Serializable]
+    public enum PhysicsCalculationType
+    {
+        BALL_MODEL,
+        PLANE_MODEL
+    }
 
     public FFTController controller;
     public float velocityForceScalar = 1;
+    public PhysicsCalculationType physicsType;
 
     private VelocityEstimator[] velocityEstimators;
 
