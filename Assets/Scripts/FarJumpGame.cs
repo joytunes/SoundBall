@@ -15,15 +15,21 @@ public class FarJumpGame : MonoBehaviour {
     private float maxDistance;
     private bool startedFarJump;
     private bool finishedFarJump;
+    private float startTime;
 
+    private float GameTime
+    {
+        get { return Time.time - startTime; }
+    }
 	// Use this for initialization
 	void Start () {
         startPosition = target.position;
+        startTime = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!startedFarJump && Time.time > timeToStart)
+        if (!startedFarJump && GameTime > timeToStart)
         {
             StartFarJump();
         }
@@ -61,7 +67,7 @@ public class FarJumpGame : MonoBehaviour {
         }
         else
         {
-            GUI.Label(maxXDistanceRect, "Time until jump : " + (timeToStart - Time.time).ToString("0.00"), textStyle);
+            GUI.Label(maxXDistanceRect, "Time until jump : " + (timeToStart - GameTime).ToString("0.00"), textStyle);
         }
         
     }
