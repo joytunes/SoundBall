@@ -25,27 +25,21 @@ public class KeepObjectInView : MonoBehaviour
 	void Update () {
         float deltaHeight = targetObject.position.y - targetStartPosition.y;
         float deltaWidth = targetObject.position.x - targetStartPosition.x;
+
+        Vector3 nextPosition = startPosition;
         if (deltaHeight > startMoveHeightDelta)
         {
             deltaHeight -= startMoveHeightDelta;
-            transform.position = startPosition + verticalMovementDirection * deltaHeight * movementRatio;
-        }
-        else
-        {
-            transform.position = startPosition;
+            nextPosition += verticalMovementDirection * deltaHeight * movementRatio;
         }
 		
 		if (deltaWidth > startMoveWidthDelta)
 		{
 			deltaWidth -= startMoveWidthDelta;
-			Vector3 tmp = transform.position;
-			tmp = startPosition + horizontalMovementDirection * deltaWidth * movementRatio2;
-			transform.position = tmp;
-		} else {
-			Vector3 tmp = transform.position;
-			tmp.x = startPosition.x;
-			transform.position = tmp;
+			nextPosition += horizontalMovementDirection * deltaWidth * movementRatio2;
 		}
+
+        transform.position = nextPosition;
 	}
 
     void FinishedFarJump()
