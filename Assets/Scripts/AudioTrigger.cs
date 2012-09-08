@@ -3,10 +3,11 @@ using System.Collections;
 
 public class AudioTrigger : MonoBehaviour {
 
-    private bool goingUp = true;
+    public AudioClip[] clips;
+    private bool goingUp = false;
 	// Use this for initialization
 	void Start () {
-	
+        
 	}
 	
 	// Update is called once per frame
@@ -21,6 +22,8 @@ public class AudioTrigger : MonoBehaviour {
         if ((!audio.isPlaying) && goingUp)
         {
             Debug.Log("Woohoo!!!!!!");
+            int clipInd = Random.Range(0, clips.Length);
+            audio.clip = clips[clipInd];
             audio.Play();
             goingUp = false;
         }

@@ -24,7 +24,8 @@ public class ParticleTrigger : MonoBehaviour
                 particleSystemTemplate, hitPosition, Quaternion.identity);
             Debug.Log(particleSystem);
         }
-        
+
+        audio.Play();
         
     }
 }
